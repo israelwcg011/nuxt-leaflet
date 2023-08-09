@@ -1,0 +1,7 @@
+[
+  {
+    "name": "Open Street",
+    "url": "http://{s}.tile.osm.org/{z}/{x}/{y}.png",
+    "attribution": "teste"
+  }
+]
