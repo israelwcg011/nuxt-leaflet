@@ -101,10 +101,23 @@
         </v-list-item-content>
       </v-list>
     </v-navigation-drawer>
+    <Dialog
+      class="dialog"
+      :visible="dialogProps.dialogShow"
+      :color="dialogProps.color"
+      :title="dialogProps.title"
+      :text="dialogProps.text"
+      @close="dialogProps.dialogShow = false"
+    ></Dialog>
   </div>
 </template>
 <script>
+import Dialog from "../components/Dialog.vue";
+
 export default {
+  components: {
+    Dialog,
+  },
   data() {
     return {
       drawer: false,
@@ -114,6 +127,12 @@ export default {
       layersActive: [],
       geojson: null,
       coordinates: "",
+      dialogProps: {
+        dialogShow: false,
+        color: "",
+        title: "",
+        text: "",
+      },
       rootMapProps: {
         zoom: 9,
         center: [48.11788, -0.52042],
@@ -159,14 +178,7 @@ export default {
       };
     },
   },
-  watch: {
-    layersActive() {
-      console.log(this.layersActive);
-    },
-    baseMapsGroup() {
-      console.log(this.baseMapsGroup);
-    },
-  },
+  watch: {},
   async created() {
     const response = await fetch(
       "https://rawgit.com/gregoiredavid/france-geojson/master/regions/pays-de-la-loire/communes-pays-de-la-loire.geojson"
@@ -191,12 +203,18 @@ export default {
             }
           }
         } else {
-          console.log("Something went wrong.");
+          this.dialogProps.title = "Erro";
+          this.dialogProps.text =
+            "Coordenadas inseridas inválidas. Por favor, verifique se as coordenadas estão no formato 'Latitude, Longitude', onde Latitude deve estar entre os números -180 e 180 e Longitude deve estar entre os números -90 e 90. Lembre-se também de colocar vírgula entre os dois números, como por exemplo '2, 4', ou '-60.2, 40.23'.";
+          this.dialogProps.color = "red lighten-1";
+          this.dialogProps.dialogShow = true;
         }
-        console.log(latitude);
-        console.log(longitude);
       } catch (error) {
-        console.log(error);
+        this.dialogProps.title = "Erro";
+        this.dialogProps.text =
+          "Coordenadas inseridas inválidas. Por favor, verifique se as coordenadas estão no formato 'Latitude, Longitude', onde Latitude deve estar entre os números -180 e 180 e Longitude deve estar entre os números -90 e 90. Lembre-se também de colocar vírgula entre os dois números, como por exemplo '2, 4', ou '-60.2, 40.23'.";
+        this.dialogProps.color = "red lighten-1";
+        this.dialogProps.dialogShow = true;
       }
     },
   },
@@ -209,6 +227,9 @@ export default {
   width: 100%;
 }
 .nav {
+  z-index: 1000;
+}
+.dialog {
   z-index: 1000;
 }
 </style>
