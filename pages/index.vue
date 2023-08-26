@@ -28,11 +28,12 @@
           :url="worldImagery.url"
           :attribution="worldImagery.attribution"
         ></l-tile-layer>
-        <l-geo-json
+        <LayersImoveisSigef
           v-if="layersActive.includes(0)"
-          :geojson="geojson"
-          :options="options"
-        ></l-geo-json>
+        ></LayersImoveisSigef>
+        <LayersTerrasIndigenas
+          v-if="layersActive.includes(1)"
+        ></LayersTerrasIndigenas>
       </l-map>
     </client-only>
 
@@ -75,13 +76,12 @@
           active-class="deep-purple text--accent-4"
         >
           <v-list-item>
-            <v-list-item-title>Pays de la Loire</v-list-item-title>
+            <v-list-item-title>Imóveis SIGEF</v-list-item-title>
           </v-list-item>
 
-          <!-- <v-list-item>
-            <v-list-item-title>Bar</v-list-item-title>
+          <v-list-item>
+            <v-list-item-title>Terras indígenas</v-list-item-title>
           </v-list-item>
-         -->
         </v-list-item-group>
       </v-list>
       <v-divider></v-divider>
@@ -124,7 +124,7 @@ export default {
       baseMapsGroup: 0,
       enableTooltip: true,
       baseMapActive: null,
-      layersActive: [],
+      layersActive: [1],
       geojson: null,
       coordinates: "",
       dialogProps: {
@@ -135,7 +135,7 @@ export default {
       },
       rootMapProps: {
         zoom: 9,
-        center: [48.11788, -0.52042],
+        center: [2.820831, -60.730241],
         options: { zoomControl: false },
       },
       baseMap: {
@@ -162,6 +162,11 @@ export default {
         onEachFeature: this.onEachFeatureFunction,
       };
     },
+    imRobotOptions() {
+      return {
+        onEachFeature: this.imRobotFeatureFunction,
+      };
+    },
     onEachFeatureFunction() {
       if (!this.enableTooltip) {
         return () => {};
@@ -174,6 +179,20 @@ export default {
             feature.properties.nom +
             "</div>",
           { permanent: false, sticky: true }
+        );
+      };
+    },
+    imRobotFeatureFunction() {
+      if (!this.enableTooltip) {
+        return () => {};
+      }
+      return (feature, layer) => {
+        layer.bindTooltip(
+          `
+          <div>
+            ${feature.properties.situacao_i}
+            </div>
+            `
         );
       };
     },
@@ -218,7 +237,9 @@ export default {
       }
     },
   },
-  mounted() {},
+  mounted() {
+    console.log(this.terrasIndigenas);
+  },
 };
 </script>
 <style>
@@ -231,5 +252,13 @@ export default {
 }
 .dialog {
   z-index: 1000;
+}
+
+.zindex {
+  z-index: 1000;
+}
+
+path.leaflet-interactive:focus {
+  outline: none;
 }
 </style>
