@@ -1,9 +1,15 @@
 <template>
   <div>
-    <l-geo-json :geojson="geojson" :options="options"></l-geo-json>
+    <l-geo-json
+      :geojson="geojson"
+      :options="options"
+      :options-style="styleFunction"
+    ></l-geo-json>
     <l-control>
       <v-card v-if="show" class="mx-auto" max-width="400" outlined>
-        <v-card-title>{{ infoCard.nome_area }}</v-card-title>
+        <v-card-title>{{
+          infoCard.nome_area ? infoCard.nome_area : "Nome não informado"
+        }}</v-card-title>
         <v-card-text>{{ infoCard.parcela_co }}</v-card-text>
         <v-divider class="mx-4"></v-divider>
         <v-card-subtitle>Situação</v-card-subtitle>
@@ -35,7 +41,7 @@ export default {
         data_aprov: "",
         data_submi: "",
         municipio_: null,
-        nome_area: "",
+        nome_area: null,
         parcela_co: "",
         registro_d: null,
         registro_m: null,
@@ -44,23 +50,37 @@ export default {
         status: "",
         uf_id: 14,
       },
-      drawerContent: {
-        art: "",
-      },
+      // drawerContent: {
+      //   art: "",
+      // },
     };
   },
   computed: {
     show() {
-      if (this.$store.state.layers.layerActive == "imoveissigef") {
+      if (
+        this.$store.state.layers.layerActive == "imoveissigef" &&
+        this.infoCard.parcela_co
+      ) {
         return true;
       } else {
         return false;
       }
     },
-    dataAprovComputed() {},
+    // dataAprovComputed() {},
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction,
+      };
+    },
+    styleFunction() {
+      return () => {
+        return {
+          weight: 3,
+          color: "#e0d31d",
+          opacity: 1,
+          fillColor: "#ffffff",
+          fillOpacity: 0,
+        };
       };
     },
     onEachFeatureFunction() {
@@ -68,7 +88,11 @@ export default {
         layer.bindTooltip(
           `
           <div>
-            ${feature.properties.nome_area}
+            ${
+              feature.properties.nome_area
+                ? feature.properties.nome_area
+                : "Nome não informado"
+            }
             </div>
             `
         );
@@ -81,6 +105,7 @@ export default {
           this.infoCard.status = feature.properties.status;
           this.infoCard.data_aprov = feature.properties.data_aprov;
           this.infoCard.data_submi = feature.properties.data_submi;
+          console.log(feature.properties);
         });
       };
     },

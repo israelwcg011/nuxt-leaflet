@@ -34,6 +34,15 @@
         <LayersTerrasIndigenas
           v-if="layersActive.includes(1)"
         ></LayersTerrasIndigenas>
+        <!-- <LayersImoveisCar v-if="layersActive.includes(2)"> </LayersImoveisCar> -->
+        <LayersLimiteMunicipal v-if="layersActive.includes(2)">
+        </LayersLimiteMunicipal>
+        <LayersUcsEstaduais
+          v-if="layersActive.includes(3)"
+        ></LayersUcsEstaduais>
+        <LayersImoveisSigefClassificado
+          v-if="layersActive.includes(4)"
+        ></LayersImoveisSigefClassificado>
       </l-map>
     </client-only>
 
@@ -55,12 +64,8 @@
             <v-list-item-title>SRTM 30 Colored Hillshade</v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
-            <v-list-item-title>World Imagery</v-list-item-title>
-          </v-list-item>
-
           <!-- <v-list-item>
-            <v-list-item-title>Fizz</v-list-item-title>
+            <v-list-item-title>World Imagery</v-list-item-title>
           </v-list-item> -->
         </v-list-item-group>
       </v-list>
@@ -78,9 +83,20 @@
           <v-list-item>
             <v-list-item-title>Imóveis SIGEF</v-list-item-title>
           </v-list-item>
-
           <v-list-item>
             <v-list-item-title>Terras indígenas</v-list-item-title>
+          </v-list-item>
+          <!-- <v-list-item>
+            <v-list-item-title>Imóveis Car</v-list-item-title>
+          </v-list-item> -->
+          <v-list-item>
+            <v-list-item-title>Limite municipal</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Unidades de conservação</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>SIGEF classificado</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -124,7 +140,7 @@ export default {
       baseMapsGroup: 0,
       enableTooltip: true,
       baseMapActive: null,
-      layersActive: [1],
+      layersActive: [],
       geojson: null,
       coordinates: "",
       dialogProps: {
@@ -197,7 +213,11 @@ export default {
       };
     },
   },
-  watch: {},
+  watch: {
+    layersActive() {
+      console.log(this.layersActive);
+    },
+  },
   async created() {
     const response = await fetch(
       "https://rawgit.com/gregoiredavid/france-geojson/master/regions/pays-de-la-loire/communes-pays-de-la-loire.geojson"

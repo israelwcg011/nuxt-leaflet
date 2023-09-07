@@ -1,6 +1,11 @@
 <template>
   <div>
-    <l-geo-json :geojson="geojson" :options="options"> </l-geo-json>
+    <l-geo-json
+      :geojson="geojson"
+      :options="options"
+      :options-style="styleFunction"
+    >
+    </l-geo-json>
     <l-control>
       <v-card
         v-if="show"
@@ -49,7 +54,10 @@ export default {
   },
   computed: {
     show() {
-      if (this.$store.state.layers.layerActive == "terrasindigenas") {
+      if (
+        this.$store.state.layers.layerActive == "terrasindigenas" &&
+        this.infoCard.gid
+      ) {
         return true;
       } else {
         return false;
@@ -58,6 +66,16 @@ export default {
     options() {
       return {
         onEachFeature: this.onEachFeatureFunction,
+      };
+    },
+    styleFunction() {
+      return () => {
+        return {
+          weight: 3,
+          color: "#035c0c",
+          opacity: 1,
+          fillColor: "#035c0c",
+        };
       };
     },
     onEachFeatureFunction() {
