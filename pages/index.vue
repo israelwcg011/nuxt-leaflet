@@ -262,7 +262,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 #map-wrap {
   height: 100%;
   width: 100%;
