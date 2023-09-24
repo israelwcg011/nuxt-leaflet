@@ -28,20 +28,20 @@
           :url="worldImagery.url"
           :attribution="worldImagery.attribution"
         ></l-tile-layer>
-        <LayersImoveisSigef
+        <!-- <LayersImoveisSigef
           v-if="layersActive.includes(0)"
-        ></LayersImoveisSigef>
+        ></LayersImoveisSigef> -->
         <LayersTerrasIndigenas
-          v-if="layersActive.includes(1)"
+          v-if="layersActive.includes(0)"
         ></LayersTerrasIndigenas>
         <!-- <LayersImoveisCar v-if="layersActive.includes(2)"> </LayersImoveisCar> -->
-        <LayersLimiteMunicipal v-if="layersActive.includes(2)">
+        <LayersLimiteMunicipal v-if="layersActive.includes(1)">
         </LayersLimiteMunicipal>
         <LayersUcsEstaduais
-          v-if="layersActive.includes(3)"
+          v-if="layersActive.includes(2)"
         ></LayersUcsEstaduais>
         <LayersImoveisSigefClassificado
-          v-if="layersActive.includes(4)"
+          v-if="layersActive.includes(3)"
         ></LayersImoveisSigefClassificado>
       </l-map>
     </client-only>
@@ -80,9 +80,9 @@
           multiple
           active-class="deep-purple text--accent-4"
         >
-          <v-list-item>
+          <!-- <v-list-item>
             <v-list-item-title>Imóveis SIGEF</v-list-item-title>
-          </v-list-item>
+          </v-list-item> -->
           <v-list-item>
             <v-list-item-title>Terras indígenas</v-list-item-title>
           </v-list-item>
@@ -96,7 +96,7 @@
             <v-list-item-title>Unidades de conservação</v-list-item-title>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title>SIGEF classificado</v-list-item-title>
+            <v-list-item-title>Imóveis Sigef</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -214,9 +214,9 @@ export default {
     },
   },
   watch: {
-    layersActive() {
-      console.log(this.layersActive);
-    },
+    // layersActive() {
+    //   console.log(this.layersActive);
+    // },
   },
   async created() {
     const response = await fetch(
@@ -258,7 +258,7 @@ export default {
     },
   },
   mounted() {
-    console.log(this.terrasIndigenas);
+    // console.log(this.terrasIndigenas);
   },
 };
 </script>
@@ -276,9 +276,5 @@ export default {
 
 .zindex {
   z-index: 1000;
-}
-
-path.leaflet-interactive:focus {
-  outline: none;
 }
 </style>

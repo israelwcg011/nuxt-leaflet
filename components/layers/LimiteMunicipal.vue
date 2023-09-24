@@ -93,7 +93,7 @@ export default {
           this.infoCard.gid = feature.properties.gid;
           this.infoCard.nm_mun = feature.properties.nm_mun;
           this.infoCard.sigla_uf = feature.properties.sigla_uf;
-          console.log(feature.properties);
+          // console.log(feature.properties);
         });
       };
     },
@@ -105,3 +105,8 @@ export default {
   },
 };
 </script>
+<style>
+path.leaflet-interactive:focus {
+  outline: none;
+}
+</style>

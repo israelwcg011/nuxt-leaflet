@@ -105,7 +105,7 @@ export default {
           this.infoCard.status = feature.properties.status;
           this.infoCard.data_aprov = feature.properties.data_aprov;
           this.infoCard.data_submi = feature.properties.data_submi;
-          console.log(feature.properties);
+          // console.log(feature.properties);
         });
       };
     },
@@ -118,7 +118,7 @@ export default {
 };
 </script>
 <style>
-.zindex {
-  z-index: 1000;
+path.leaflet-interactive:focus {
+  outline: none;
 }
 </style>

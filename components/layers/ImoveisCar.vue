@@ -37,10 +37,15 @@ export default {
 
         layer.on("click", (e) => {
           // this.$store.commit("layers/change", { name: "imoveissigef" });
-          console.log(feature.properties);
+          // console.log(feature.properties);
         });
       };
     },
   },
 };
 </script>
+<style>
+path.leaflet-interactive:focus {
+  outline: none;
+}
+</style>

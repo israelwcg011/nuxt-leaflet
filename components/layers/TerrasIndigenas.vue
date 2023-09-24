@@ -107,3 +107,8 @@ export default {
   },
 };
 </script>
+<style>
+path.leaflet-interactive:focus {
+  outline: none;
+}
+</style>

@@ -13,7 +13,7 @@
         min-width="280"
         outlined
       >
-        <v-card-title
+        <!-- <v-card-title
           >{{ infoCard.nomeabrev }} ({{ infoCard.sigla }}, gid:
           {{ infoCard.gid }})</v-card-title
         >
@@ -35,7 +35,7 @@
         <v-divider class="mx-4"></v-divider>
         <v-card-subtitle>Lei</v-card-subtitle>
         <v-card-text>{{ infoCard.lei }}</v-card-text>
-        <v-divider class="mx-4"></v-divider>
+        <v-divider class="mx-4"></v-divider> -->
         <v-card-actions>
           <v-btn outlined rounded text @click="closeCard"> Fechar </v-btn>
         </v-card-actions>
@@ -50,17 +50,17 @@ export default {
   data() {
     return {
       geojson: geojsonData,
-      infoCard: {
-        gid: null,
-        nomeabrev: "",
-        sigla: "",
-        administra: "",
-        ano: null,
-        situacao: "",
-        decreto: "",
-        lei: "",
-        area_ha: null,
-      },
+      // infoCard: {
+      //   gid: null,
+      //   nomeabrev: "",
+      //   sigla: "",
+      //   administra: "",
+      //   ano: null,
+      //   situacao: "",
+      //   decreto: "",
+      //   lei: "",
+      //   area_ha: null,
+      // },
     };
   },
 
@@ -94,23 +94,23 @@ export default {
         layer.bindTooltip(
           `
           <div>
-            ${feature.properties.nomeabrev}
+            ${feature.properties.NomeUC}
             </div>
             `
         );
 
         layer.on("click", (e) => {
-          this.$store.commit("layers/change", { name: "ucsestaduais" });
-          this.infoCard.gid = feature.properties.gid;
-          this.infoCard.nomeabrev = feature.properties.nomeabrev;
-          this.infoCard.sigla = feature.properties.sigla;
-          this.infoCard.administra = feature.properties.administra;
-          this.infoCard.ano = feature.properties.ano;
-          this.infoCard.situacao = feature.properties.situacao;
-          this.infoCard.decreto = feature.properties.decreto;
-          this.infoCard.lei = feature.properties.lei;
-          this.infoCard.area_ha = feature.properties.area_ha;
-          console.log(feature.properties);
+          // this.$store.commit("layers/change", { name: "ucsestaduais" });
+          // this.infoCard.gid = feature.properties.gid;
+          // this.infoCard.nomeabrev = feature.properties.nomeabrev;
+          // this.infoCard.sigla = feature.properties.sigla;
+          // this.infoCard.administra = feature.properties.administra;
+          // this.infoCard.ano = feature.properties.ano;
+          // this.infoCard.situacao = feature.properties.situacao;
+          // this.infoCard.decreto = feature.properties.decreto;
+          // this.infoCard.lei = feature.properties.lei;
+          // this.infoCard.area_ha = feature.properties.area_ha;
+          // console.log(feature.properties);
         });
       };
     },
@@ -122,3 +122,8 @@ export default {
   },
 };
 </script>
+<style>
+path.leaflet-interactive:focus {
+  outline: none;
+}
+</style>

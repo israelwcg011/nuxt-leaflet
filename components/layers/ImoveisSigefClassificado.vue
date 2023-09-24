@@ -1,25 +1,50 @@
 <template>
   <div>
-    <l-geo-json
-      :geojson="geojson"
-      :options="options"
-    ></l-geo-json>
+    <l-geo-json :geojson="geojson" :options="options" :options-style="styleFunction"></l-geo-json>
     <l-control>
       <v-card v-if="show" class="mx-auto" max-width="400" outlined>
         <v-card-title>{{
           infoCard.nome_area ? infoCard.nome_area : "Nome não informado"
         }}</v-card-title>
+        <!-- <v-card-text>{{ infoCard.parcela_co }}</v-card-text> -->
+        <v-divider class="mx-4"></v-divider>
+
+        <v-card-subtitle>Código da parcela</v-card-subtitle>
         <v-card-text>{{ infoCard.parcela_co }}</v-card-text>
         <v-divider class="mx-4"></v-divider>
-        <v-card-subtitle>Situação</v-card-subtitle>
-        <v-card-text>{{ infoCard.situacao_i }}</v-card-text>
-        <v-divider class="mx-4"></v-divider>
-        <v-card-subtitle>Status</v-card-subtitle>
-        <v-card-text>{{ infoCard.status }}</v-card-text>
-        <v-divider class="mx-4"></v-divider>
-        <v-card-subtitle>Datas</v-card-subtitle>
-        <v-card-text> Submissão: {{ infoCard.data_submi }} </v-card-text>
-        <v-card-text> Aprovação: {{ infoCard.data_aprov }} </v-card-text>
+
+        <!-- <v-card-subtitle>Código do imóvel</v-card-subtitle>
+        <v-card-text>{{
+          infoCard.codigo_imo ? infoCard.codigo_imo : "Código não fornecido"
+        }}</v-card-text>
+        <v-divider class="mx-4"></v-divider> -->
+
+        <!-- <v-card-subtitle>Object Id</v-card-subtitle>
+        <v-card-text>{{ infoCard.OBJECTID }}</v-card-text>
+        <v-divider class="mx-4"></v-divider> -->
+
+        <v-card-subtitle>Informações</v-card-subtitle>
+        <v-card-text>
+          Área do imóvel: {{ Math.round(infoCard.areaimovel * 100) / 100 }} ha
+        </v-card-text>
+        <v-card-text>
+          Área desmatada em 2008:
+          {{ Math.round(infoCard.desm_2008 * 100) / 100 }} ha ({{
+            Math.round(infoCard.pct_2008 * 100) / 100
+          }}% do total)
+        </v-card-text>
+        <v-card-text>
+          Área desmatada em 2023:
+          {{ Math.round(infoCard.desm_2023 * 100) / 100 }} ha ({{
+            Math.round(infoCard.pct_2023 * 100) / 100
+          }}% do total)
+        </v-card-text>
+        <v-card-text
+          >Variação de desmatamento:
+          {{ Math.round(infoCard.variacao_2008_2023 * 100) / 100 }}
+          ha</v-card-text
+        >
+
         <v-card-actions>
           <v-btn outlined rounded text @click="closeCard"> Fechar </v-btn>
         </v-card-actions>
@@ -28,37 +53,31 @@
   </div>
 </template>
 <script>
-import geojsonData from "../../static/imoveis_sigef_classificado.json";
+import geojsonData from "../../static/SIGEF_Classificado.json";
 
 export default {
   data() {
     return {
       geojson: geojsonData,
       infoCard: {
-        art: "",
+        variacao_2008_2023: null,
+        OBJECTID: null,
+        areaimovel: null,
         codigo_imo: "",
-        data_aprov: "",
-        data_submi: "",
-        municipio_: null,
-        nome_area: null,
+        desm_2008: null,
+        desm_2023: null,
+        nome_area: "",
         parcela_co: "",
-        registro_d: null,
-        registro_m: null,
-        rt: "",
-        situacao_i: "",
-        status: "",
-        uf_id: 14,
+        pct_2008: null,
+        pct_2023: null,
       },
-      // drawerContent: {
-      //   art: "",
-      // },
     };
   },
   computed: {
     show() {
       if (
         this.$store.state.layers.layerActive == "imoveissigefclassificado" &&
-        this.infoCard.parcela_co
+        this.infoCard.OBJECTID
       ) {
         return true;
       } else {
@@ -97,14 +116,20 @@ export default {
         );
 
         layer.on("click", (e) => {
-          // this.$store.commit("layers/change", { name: "imoveissigefclassificado" });
-          // this.infoCard.nome_area = feature.properties.nome_area;
-          // this.infoCard.parcela_co = feature.properties.parcela_co;
-          // this.infoCard.situacao_i = feature.properties.situacao_i;
-          // this.infoCard.status = feature.properties.status;
-          // this.infoCard.data_aprov = feature.properties.data_aprov;
-          // this.infoCard.data_submi = feature.properties.data_submi;
-          console.log(feature.properties);
+          this.$store.commit("layers/change", {
+            name: "imoveissigefclassificado",
+          });
+          this.infoCard.variacao_2008_2023 = feature.properties["2008_2023"];
+          this.infoCard.OBJECTID = feature.properties.OBJECTID;
+          this.infoCard.areaimovel = feature.properties.areaimovel;
+          this.infoCard.codigo_imo = feature.properties.codigo_imo;
+          this.infoCard.desm_2008 = feature.properties.desm_2008;
+          this.infoCard.desm_2023 = feature.properties.desm_2023;
+          this.infoCard.nome_area = feature.properties.nome_area;
+          this.infoCard.parcela_co = feature.properties.parcela_co;
+          this.infoCard.pct_2008 = feature.properties.pct_2008;
+          this.infoCard.pct_2023 = feature.properties.pct_2023;
+          // console.log(feature.properties);
         });
       };
     },
@@ -117,7 +142,7 @@ export default {
 };
 </script>
 <style>
-.zindex {
-  z-index: 1000;
+path.leaflet-interactive:focus {
+  outline: none;
 }
 </style>
