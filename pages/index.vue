@@ -43,6 +43,7 @@
         <LayersImoveisSigefClassificado
           v-if="layersActive.includes(3)"
         ></LayersImoveisSigefClassificado>
+        <LayersImoveisDesmatApos2008 v-if="layersActive.includes(4)"></LayersImoveisDesmatApos2008>
       </l-map>
     </client-only>
 
@@ -97,6 +98,9 @@
           </v-list-item>
           <v-list-item>
             <v-list-item-title>Imóveis Sigef</v-list-item-title>
+          </v-list-item>
+          <v-list-item>
+            <v-list-item-title>Imóveis: desmat. após 2008</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
